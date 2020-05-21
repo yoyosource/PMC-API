@@ -10,17 +10,16 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-public class PMCAPI extends JavaPlugin implements PluginMessageListener {
+public class PMCAPI implements PluginMessageListener {
 
-    static String ipSync = "";
-    static Integer pcSync = 0;
-    static String[] plSync;
-    static String uuidSync = "";
+    String ipSync = "";
+    Integer pcSync = 0;
+    String[] plSync;
+    String uuidSync = "";
 
-    @Override
-    public void onEnable() {
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
+    public PMCAPI(Plugin plugin) {
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    public static void send(Plugin source, Player player, String subchannel, String... argument) {
+    public void send(Plugin source, Player player, String subchannel, String... argument) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF(subchannel);
         for (String str:
@@ -71,7 +70,7 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         player.sendPluginMessage(source, "BungeeCord", out.toByteArray());
     }
 
-    public static void send(Plugin source, String subchannel, String... argument) {
+    public void send(Plugin source, String subchannel, String... argument) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF(subchannel);
         for (String str:
@@ -86,11 +85,11 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         player.sendPluginMessage(source, "BungeeCord", out.toByteArray());
     }
 
-    public static void sendPlayer(Plugin source, String player, String server) {
+    public void sendPlayer(Plugin source, String player, String server) {
         send(source, "Connect" , player, server);
     }
 
-    public static String getIP(Plugin source, String player) {
+    public String getIP(Plugin source, String player) {
         synchronized (ipSync) {
             send(source, "player");
             try {
@@ -102,7 +101,7 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    public static int getPlayerCount(Plugin source, String server) {
+    public int getPlayerCount(Plugin source, String server) {
         synchronized (pcSync){
             send(source, "PlayerCount", server);
             try {
@@ -114,7 +113,7 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    public static int getAllPlayerCount(Plugin source) {
+    public int getAllPlayerCount(Plugin source) {
         synchronized (pcSync){
             send(source, "PlayerCount", "ALL");
             try {
@@ -126,7 +125,7 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    public static String[] getPlayerList(Plugin source, String server) {
+    public String[] getPlayerList(Plugin source, String server) {
         synchronized (plSync){
             send(source, "PlayerList", server);
             try {
@@ -138,7 +137,7 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    public static String[] getAllPlayerList(Plugin source) {
+    public String[] getAllPlayerList(Plugin source) {
         synchronized (plSync){
             send(source, "PlayerList", "ALL");
             try {
@@ -150,19 +149,19 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    public static void sendMessage(Plugin source, String player, String message) {
+    public void sendMessage(Plugin source, String player, String message) {
         send(source, "Message", player, message);
     }
 
-    public static void broadcastMessage(Plugin source, String message) {
+    public void broadcastMessage(Plugin source, String message) {
         send(source, "Message", "ALL", message);
     }
 
-    public static void forward(Plugin source, String server, String channel, String data) {
+    public void forward(Plugin source, String server, String channel, String data) {
         send(source, channel, server, data);
     }
 
-    public static String getUUID(Plugin source, String player) {
+    public String getUUID(Plugin source, String player) {
         synchronized (uuidSync){
             send(source, "UUIDOther", player);
             try {
@@ -174,7 +173,7 @@ public class PMCAPI extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    public static void kickPlayer(Plugin source, String player, String reason) {
+    public void kickPlayer(Plugin source, String player, String reason) {
         send(source, "KickPlayer", player, reason);
     }
 }
