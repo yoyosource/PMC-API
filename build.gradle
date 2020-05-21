@@ -44,6 +44,14 @@ shadowJar {
     }
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': mainClassName
+        )
+    }
+}
+
 task renameTaskAll {
     description 'Build PMC-API'
     group 'GP'
