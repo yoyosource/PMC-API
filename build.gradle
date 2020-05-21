@@ -64,7 +64,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'yoyosource'
             artifactId = 'PMC-API'
-            version = '2'
+            version = '3'
 
             from components.java
         }
