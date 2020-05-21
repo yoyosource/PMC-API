@@ -16,7 +16,7 @@ ext {
     libs = "${buildDir}/libs"
 }
 
-mainClassName = 'gpdatabase.Database'
+mainClassName = 'pmcapi.PMCAPI'
 
 repositories {
     jcenter()
