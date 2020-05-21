@@ -7,5 +7,5 @@ maven {
 ```
 
 ```groovy
-implementation 'yoyosource:PMC-API:1'
+implementation 'yoyosource:PMC-API:2'
 ```
