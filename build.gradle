@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '5.0.0'
+
+    id 'maven-publish'
 }
 
 group 'PMC-API'
@@ -49,6 +51,23 @@ jar {
         attributes(
                 'Main-Class': mainClassName
         )
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "${rootDir}/releases"
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            groupId = 'yoyosource'
+            artifactId = 'PMC-API'
+            version = '1'
+
+            from components.java
+        }
     }
 }
 
