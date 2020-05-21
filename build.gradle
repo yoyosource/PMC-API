@@ -14,6 +14,7 @@ ext {
     uberJarName = "${group}-${version}-all.jar"
     jarName = "${group}-${version}.jar"
     libs = "${buildDir}/libs"
+    outputJarName = "pmc-api.jar"
 }
 
 mainClassName = 'pmcapi.PMCAPI'
@@ -43,6 +44,19 @@ shadowJar {
     }
 }
 
+task renameTaskAll {
+    description 'Build PMC-API'
+    group 'GP'
+
+    dependsOn 'build'
+
+    doLast {
+        file("${buildDir}/libs/${outputJarName}").delete()
+        file("${buildDir}/libs/${uberJarName}").renameTo(file("${buildDir}/libs/${outputJarName}"))
+        file("${buildDir}/libs/${jarName}").delete()
+    }
+}
+
 task renameTask {
     description 'Build PMC-API'
     group 'GP'
@@ -50,7 +64,8 @@ task renameTask {
     dependsOn 'build'
 
     doLast {
-        file("${buildDir}/libs/${uberJarName}").renameTo(file("${buildDir}/libs/pmc-api.jar"))
-        file("${buildDir}/libs/${jarName}").delete()
+        file("${buildDir}/libs/${outputJarName}").delete()
+        file("${buildDir}/libs/${jarName}").renameTo(file("${buildDir}/libs/${outputJarName}"))
+        file("${buildDir}/libs/${uberJarName}").delete()
     }
 }
