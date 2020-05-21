@@ -1,0 +1,6 @@
+main: pmcapi.PMCAPI
+name: PmcApi
+version: 1.0.0
+api-version: 1.15
+load: STARTUP
+author: Chaoscaot444
